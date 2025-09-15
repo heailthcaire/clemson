@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clemson AI Strategic Dashboard – README</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Documentation for the Clemson University Strategic AI Adoption & Impact Dashboard." />
+  <style>
+    :root {
+      --bg:#ffffff;
+      --text:#222;
+      --accent:#f66733;
+      --accent-dark:#d24f1d;
+      --border:#e1e4e8;
+      --code-bg:#f5f7fa;
+      --mono:"SFMono-Regular","Consolas","Liberation Mono",monospace;
+    }
+    body {
+      font-family: system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      margin:0;
+      line-height:1.45;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      background:linear-gradient(90deg,var(--accent) 0%, #ff934f 100%);
+      color:#fff;
+      padding:2.2rem 1.5rem 1.8rem;
+    }
+    header h1 {
+      margin:0 0 .4rem;
+      font-size:1.9rem;
+      letter-spacing:.5px;
+    }
+    header p {
+      margin:0;
+      max-width:820px;
+    }
+    main {
+      max-width:980px;
+      margin:0 auto;
+      padding:2rem 1.25rem 4rem;
+    }
+    nav.toc {
+      border:1px solid var(--border);
+      background:#fafbfc;
+      padding:1rem 1.25rem;
+      border-radius:8px;
+      font-size:.9rem;
+      margin-bottom:2rem;
+    }
+    nav.toc strong { display:block; margin-bottom:.35rem; }
+    nav.toc ul {
+      list-style:none;
+      padding-left:0;
+      margin:.25rem 0 0;
+      columns:2;
+      column-gap:2.5rem;
+    }
+    nav.toc li {
+      margin:.15rem 0;
+      break-inside:avoid;
+    }
+    nav.toc a {
+      color:var(--accent-dark);
+      text-decoration:none;
+    }
+    nav.toc a:hover { text-decoration:underline; }
+    h2 {
+      margin-top:2.4rem;
+      border-bottom:2px solid var(--border);
+      padding-bottom:.35rem;
+      font-size:1.35rem;
+    }
+    h3 {
+      margin-top:1.8rem;
+      font-size:1.1rem;
+      letter-spacing:.5px;
+      text-transform:uppercase;
+      color:#444;
+    }
+    p, li { max-width:820px; }
+    code, pre code {
+      font-family:var(--mono);
+      font-size:.85rem;
+    }
+    pre {
+      background:var(--code-bg);
+      padding:1rem 1rem;
+      border-radius:6px;
+      overflow:auto;
+      border:1px solid var(--border);
+      line-height:1.35;
+      max-width:860px;
+    }
+    pre::-webkit-scrollbar { height:8px; }
+    pre::-webkit-scrollbar-track { background:transparent; }
+    pre::-webkit-scrollbar-thumb { background:#c1c7cf; border-radius:4px; }
+    table {
+      border-collapse:collapse;
+      margin:1rem 0;
+      width:100%;
+      max-width:860px;
+      font-size:.9rem;
+    }
+    th, td {
+      padding:.55rem .65rem;
+      border:1px solid var(--border);
+      vertical-align:top;
+      text-align:left;
+    }
+    th {
+      background:#f0f2f5;
+      font-weight:600;
+    }
+    .pill {
+      background:var(--accent);
+      color:#fff;
+      padding:.15rem .55rem;
+      font-size:.7rem;
+      border-radius:12px;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+      margin-left:.4rem;
+    }
+    ul { padding-left:1.15rem; }
+    ul.inline-list { list-style:disc; }
+    .note-box {
+      border-left:4px solid var(--accent);
+      background:#fff7f3;
+      padding:.85rem 1rem;
+      margin:1.25rem 0;
+      border-radius:4px;
+    }
+    .grid {
+      display:grid;
+      gap:.5rem 1.25rem;
+      grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+      margin:1rem 0;
+    }
+    footer {
+      background:#111;
+      color:#ccc;
+      padding:2rem 1.5rem;
+      font-size:.8rem;
+      text-align:center;
+    }
+    a { color:var(--accent-dark); }
+    a:focus-visible {
+      outline:2px solid var(--accent-dark);
+      outline-offset:2px;
+      border-radius:2px;
+    }
+    .sr-only {
+      position:absolute;
+      width:1px; height:1px;
+      padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0 0 0 0);
+      border:0;
+    }
+    @media (max-width:760px){
+      nav.toc ul { columns:1; }
+      header { padding:1.75rem 1rem 1.4rem; }
+      main { padding:1.75rem 1rem 3.2rem; }
+      h2 { font-size:1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="sr-only">Skip to content</a>
+  <header>
+    <h1>Clemson University – Strategic AI Adoption & Impact Dashboard</h1>
+    <p>Executive dashboard prototype visualizing AI adoption, academic &amp; research impact, operational efficiency, compliance / risk posture, and strategic outcomes. All primary metrics are sourced from a single external JSON file so updates do <strong>not</strong> require code changes.</p>
+  </header>
+  <main id="main">
+    <nav class="toc" aria-label="Table of contents">
+      <strong>Contents</strong>
+      <ul>
+        <li><a href="#key-features">1. Key Features</a></li>
+          <li><a href="#tech-stack">2. Tech Stack</a></li>
+          <li><a href="#structure">3. File / Directory Structure</a></li>
+          <li><a href="#quick-start">4. Quick Start</a></li>
+          <li><a href="#data-file">5. Data File</a></li>
+          <li><a href="#data-refresh">6. Data Refresh Workflow</a></li>
+          <li><a href="#add-dept">7. Adding a New Department</a></li>
+          <li><a href="#add-metric">8. Adding a New Metric / Chart</a></li>
+          <li><a href="#versioning">9. Versioning Strategy</a></li>
+          <li><a href="#accessibility">10. Accessibility</a></li>
+          <li><a href="#performance">11. Performance</a></li>
+          <li><a href="#security">12. Security & Governance</a></li>
+          <li><a href="#theming">13. Theming & Branding</a></li>
+          <li><a href="#roadmap">14. Roadmap</a></li>
+          <li><a href="#changelog">15. Changelog Conventions</a></li>
+          <li><a href="#troubleshooting">16. Troubleshooting</a></li>
+          <li><a href="#faq">17. FAQ</a></li>
+          <li><a href="#contrib">18. Contribution Guidelines</a></li>
+          <li><a href="#license">19. License</a></li>
+          <li><a href="#automation">20. Future Automation Ideas</a></li>
+          <li><a href="#contact">21. Contact / Maintainers</a></li>
+          <li><a href="#cheatsheet">22. Quick Reference Cheatsheet</a></li>
+      </ul>
+    </nav>
+
+    <section id="key-features">
+      <h2>1. Key Features</h2>
+      <ul>
+        <li>Centralized external data file: <code>assets/data/ai_dashboard_data.json</code></li>
+        <li>KPI strip + 5 thematic panels (Adoption, Academic/Research, Operations, Compliance/Risk, Strategic Outcomes)</li>
+        <li>Multiple chart types (bar, line, doughnut, radar, combo) via Chart.js</li>
+        <li>Interdisciplinary collaboration heatmap (pure DOM)</li>
+        <li>Risk indicators with color thresholds</li>
+        <li>Strategic alignment scorecard (inline SVG sparklines)</li>
+        <li>ROI + value creation dual‑axis trend</li>
+        <li>Dataset version surfaced in footer (<code>datasetVersion</code>)</li>
+        <li>Accessible structure: landmarks, skip link, hidden labels, fallbacks</li>
+        <li>Modular build functions for easy extension</li>
+      </ul>
+    </section>
+
+    <section id="tech-stack">
+      <h2>2. Tech Stack</h2>
+      <ul>
+        <li>HTML / CSS / Vanilla JS</li>
+        <li>Chart.js (CDN)</li>
+        <li>No build step required (static deploy ready)</li>
+        <li>Optional export libs (future): html2canvas / jsPDF</li>
+      </ul>
+    </section>
+
+    <section id="structure">
+      <h2>3. File / Directory Structure</h2>
+      <pre><code>.
+├── dashboard.html
+├── assets/
+│   ├── css/
+│   │   └── dashboard.css
+│   ├── js/
+│   │   └── dashboard.js
+│   └── data/
+│       └── ai_dashboard_data.json
+├── README.md
+└── (optional) CHANGELOG.md
+</code></pre>
+    </section>
+
+    <section id="quick-start">
+      <h2>4. Quick Start</h2>
+      <h3>Option A: Simple Local Preview</h3>
+      <ol>
+        <li>Place directory on disk.</li>
+        <li>Serve via local server (fetch requires HTTP):
+          <pre><code># Python 3
+python -m http.server 8080
+
+# Or using Node
+npx serve .</code></pre>
+        </li>
+        <li>Open <a href="http://localhost:8080/dashboard.html">http://localhost:8080/dashboard.html</a></li>
+      </ol>
+      <h3>Option B: Static Hosting</h3>
+      <ul>
+        <li>Deploy to S3 + CloudFront, Netlify, GitHub Pages, etc.</li>
+        <li>Maintain relative directory structure.</li>
+      </ul>
+    </section>
+
+    <section id="data-file">
+      <h2>5. Data File (Single Source of Truth)</h2>
+      <p>Location: <code>assets/data/ai_dashboard_data.json</code></p>
+      <p>All metrics plus version identifier are stored here.</p>
+      <h3>Minimal Example (Truncated)</h3>
+      <pre><code>{
+"datasetVersion": "2025-Q1",
+"departments": ["Engineering","Sciences","Business","Education","Humanities","Agriculture"],
+"projectData": [
+  { "dept":"Engineering","initiated":15,"completed":9 }
+],
+"facultyAdoption": {
+  "totalFaculty": 1800,
+  "activeFaculty": 1180,
+  "distribution": [
+    { "tool":"GenAI Writing","users":540 }
+  ]
+},
+"studentEngagement": {
+  "labelsM": ["Jan","Feb"],
+  "valuesM": [12,14],
+  "totalStudents": 26000,
+  "engagedStudents": 14300
+},
+"...": "Additional keys"
+}</code></pre>
+      <h3>Core Keys &amp; Purposes</h3>
+      <ul>
+        <li><code>datasetVersion</code>: dataset iteration label</li>
+        <li><code>departments</code>: ordered department list (axes &amp; heatmap)</li>
+        <li><code>projectData</code>: initiated vs completed per department</li>
+        <li><code>facultyAdoption</code>: adoption distribution and totals</li>
+        <li><code>studentEngagement</code>: engagement time series</li>
+        <li><code>trainingParticipation</code>: training category values</li>
+        <li><code>curriculum</code>: AI course penetration &amp; growth comparison</li>
+        <li><code>research</code>: grants (amount &amp; count)</li>
+        <li><code>publications</code>: publications &amp; citations timeline</li>
+        <li><code>collabMatrix</code>: N x N collaboration intensity matrix</li>
+        <li><code>processes</code>: automation records (hours &amp; cost saved)</li>
+        <li><code>serviceImprovements</code>: qualitative &amp; quantitative KPIs</li>
+        <li><code>governance</code>: maturity milestones</li>
+        <li><code>ethicsReviews</code>: review stages counts</li>
+        <li><code>securityIncidents</code>: incident timeline</li>
+        <li><code>riskIndicators</code>: risk area scores</li>
+        <li><code>strategicAlignment</code>: goal scorecard entries</li>
+        <li><code>benchmark</code>: peer vs Clemson normalized metrics</li>
+        <li><code>roiTrend</code>: ROI and value creation series</li>
+      </ul>
+    </section>
+
+    <section id="data-refresh">
+      <h2>6. Data Refresh Workflow</h2>
+      <ol>
+        <li>Edit <code>ai_dashboard_data.json</code></li>
+        <li>Update metrics</li>
+        <li>Bump <code>datasetVersion</code></li>
+        <li>Optionally archive old file (e.g., <code>history/ai_dashboard_data_2025-Q1.json</code>)</li>
+        <li>Deploy updated JSON</li>
+        <li>Reload dashboard (new version appears in footer)</li>
+      </ol>
+    </section>
+
+    <section id="add-dept">
+      <h2>7. Adding a New Department</h2>
+      <ol>
+        <li>Add name to <code>departments</code></li>
+        <li>Add object to <code>projectData</code></li>
+        <li>Expand <code>collabMatrix</code> (new row &amp; cells per existing row)</li>
+        <li>Verify order consistency</li>
+        <li>Update any department-specific metrics if needed</li>
+      </ol>
+    </section>
+
+    <section id="add-metric">
+      <h2>8. Adding a New Metric / Chart</h2>
+      <ol>
+        <li>Add new key to JSON (e.g., <code>"aiCompetitions"</code>)</li>
+        <li>Implement a build function in <code>dashboard.js</code></li>
+        <li>Call it from global render initializer</li>
+        <li>Add HTML container block in <code>dashboard.html</code></li>
+        <li>Follow existing accessible patterns</li>
+      </ol>
+    </section>
+
+    <section id="versioning">
+      <h2>9. Versioning Strategy</h2>
+      <ul>
+        <li>Use quarterly or monthly tags (<code>YYYY-Q#</code> or <code>YYYY-MM</code>)</li>
+        <li>Maintain changelog referencing versions</li>
+        <li>For highlighting deltas: load prior file and compute differences (future)</li>
+      </ul>
+    </section>
+
+    <section id="accessibility">
+      <h2>10. Accessibility Considerations</h2>
+      <ul>
+        <li>Landmarks: header / main / footer</li>
+        <li>Skip link for keyboard navigation</li>
+        <li>Hidden form labels maintained</li>
+        <li>Canvas charts: <code>role="img"</code> with descriptive <code>aria-label</code></li>
+        <li>Tabular fallbacks where feasible</li>
+        <li>Potential enhancement: live region summaries on filter change</li>
+      </ul>
+    </section>
+
+    <section id="performance">
+      <h2>11. Performance Notes</h2>
+      <ul>
+        <li>Single JSON payload initial load</li>
+        <li>Consider aggregation for large historical series</li>
+        <li>Lazy-load non-critical panels if payload grows</li>
+        <li>Heatmap optimization (canvas/WebGL) if departments &gt; 40</li>
+        <li>Currently uses <code>cache: 'no-store'</code> (adjust for prod caching)</li>
+      </ul>
+    </section>
+
+    <section id="security">
+      <h2>12. Security &amp; Governance (Production Hardening)</h2>
+      <ul>
+        <li>SSO authentication (OIDC / SAML)</li>
+        <li>Serve dynamic JSON behind auth or API gateway</li>
+        <li>Strict CSP (migrate inline scripts to external)</li>
+        <li>Script integrity attributes (present for Chart.js)</li>
+        <li>Input sanitization for future user contributions</li>
+        <li>Audit logging if sensitive metrics</li>
+      </ul>
+    </section>
+
+    <section id="theming">
+      <h2>13. Theming &amp; Branding</h2>
+      <ul>
+        <li>Central CSS variable tokens</li>
+        <li>Easy palette adjustments</li>
+        <li>Dark mode: add data-theme attribute overrides</li>
+      </ul>
+    </section>
+
+    <section id="roadmap">
+      <h2>14. Roadmap (Suggested Enhancements)</h2>
+      <ul>
+        <li>PDF / PNG export</li>
+        <li>Delta indicators vs previous datasetVersion</li>
+        <li>Drill-down modals</li>
+        <li>Role-based visibility</li>
+        <li>Historical playback slider</li>
+        <li>API sourcing instead of static JSON</li>
+        <li>Automated schema validation</li>
+        <li>Unit tests for KPI logic</li>
+      </ul>
+    </section>
+
+    <section id="changelog">
+      <h2>15. Changelog Conventions</h2>
+      <pre><code>## 2025-Q2
+- Added department: Health Sciences
+- Expanded collabMatrix to 7x7
+- Introduced new metric: aiCompetitions
+
+## 2025-Q1
+- Initial release
+</code></pre>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>16. Troubleshooting</h2>
+      <table aria-label="Troubleshooting guide">
+        <thead>
+          <tr><th>Issue</th><th>Cause</th><th>Resolution</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Blank KPIs / charts</td><td>JSON failed to load</td><td>Check path, use local server not file://</td></tr>
+          <tr><td><code>datasetVersion</code> shows --</td><td>Key missing or injection timing</td><td>Confirm key &amp; ensure fetch completed</td></tr>
+          <tr><td>Heatmap misaligned</td><td>Matrix not square / order mismatch</td><td>Match matrix dimensions to departments</td></tr>
+          <tr><td>Wrong completion %</td><td>Updated only completed value</td><td>Update both initiated &amp; completed</td></tr>
+          <tr><td>CORS error</td><td>Cross-origin fetch blocked</td><td>Serve JSON same origin or enable CORS</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="faq">
+      <h2>17. FAQ</h2>
+      <p><strong>Q:</strong> Can I split the JSON?<br />
+      <strong>A:</strong> Yes; fetch multiple endpoints then merge before rendering.</p>
+      <p><strong>Q:</strong> Add a second benchmark peer set?<br />
+      <strong>A:</strong> Extend <code>benchmark</code> with extra peer array &amp; add dataset to radar chart.</p>
+      <p><strong>Q:</strong> Migrate to React?<br />
+      <strong>A:</strong> Port build functions into components with <code>useEffect</code>.</p>
+    </section>
+
+    <section id="contrib">
+      <h2>18. Contribution Guidelines (If Open-Sourced)</h2>
+      <ul>
+        <li>Branch naming: <code>feature/&lt;desc&gt;</code>, <code>fix/&lt;issue-id&gt;</code></li>
+        <li>Describe JSON schema changes in PR</li>
+        <li>Provide before/after screenshots</li>
+        <li>Run accessibility audit (axe / Lighthouse)</li>
+      </ul>
+    </section>
+
+    <section id="license">
+      <h2>19. License</h2>
+      <p>Add a <code>LICENSE</code> file (MIT, Apache-2.0, or proprietary internal notice).</p>
+    </section>
+
+    <section id="automation">
+      <h2>20. Future Automation Ideas</h2>
+      <ul>
+        <li>Pre-deploy JSON validator (matrix size, numeric checks)</li>
+        <li>Automated delta summary generation</li>
+        <li>Webhook-driven version bump</li>
+        <li>CI screenshot regression tests</li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2>21. Contact / Maintainers (Placeholder)</h2>
+      <ul>
+        <li>Product Owner: (Name / Email)</li>
+        <li>Data Steward: (Name / Email)</li>
+        <li>Technical Maintainer: (Name / Email)</li>
+      </ul>
+    </section>
+
+    <section id="cheatsheet">
+      <h2>22. Quick Reference Cheatsheet</h2>
+      <ul>
+        <li>Update data: edit JSON → bump <code>datasetVersion</code></li>
+        <li>Add department: update <code>departments</code>, <code>projectData</code>, expand <code>collabMatrix</code></li>
+        <li>Add chart: new JSON key + build function + HTML block</li>
+        <li>Show version: ensure <code>datasetVersion</code> exists</li>
+        <li>Risk colors: &lt;40 green, 40–65 yellow, &gt;65 red</li>
+      </ul>
+    </section>
+
+    <div class="note-box">
+      <strong>Note:</strong> This HTML file is a standalone conversion of the README markdown. Embed or link it as <code>README.html</code> for web distribution.
+    </div>
+  </main>
+  <footer>
+    <p>Clemson University (Prototype). Internal Use Only. README HTML Version.</p>
+  </footer>
+</body>
+</html>

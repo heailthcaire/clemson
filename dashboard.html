@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clemson University – AI Adoption & Strategic Impact Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Executive dashboard summarizing AI adoption, academic impact, operational efficiency, compliance, and strategic outcomes at Clemson University." />
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="app-header" role="banner">
+    <div class="brand">
+      <span class="logo-text" aria-label="Clemson University">Clemson AI</span>
+      <span class="sub">Strategic AI Adoption & Impact</span>
+    </div>
+    <div class="header-actions">
+      <div class="period-toggle" role="group" aria-label="Time granularity">
+        <button data-period="Q" class="active">Quarter</button>
+        <button data-period="Y">Year</button>
+      </div>
+      <div class="select-wrap">
+        <label for="dept-filter" class="visually-hidden">Department Filter</label>
+        <select id="dept-filter" aria-label="Filter by department">
+          <option value="ALL">All Departments</option>
+        </select>
+      </div>
+      <div class="select-wrap">
+        <label for="range-filter" class="visually-hidden">Date Range</label>
+        <select id="range-filter" aria-label="Select range">
+          <option value="LAST_4Q">Last 4 Quarters</option>
+          <option value="CY">Current Year</option>
+          <option value="PY">Previous Year</option>
+          <option value="ALL">All Available</option>
+        </select>
+      </div>
+      <button id="export-dashboard" class="btn small" aria-label="Export dashboard snapshot">Export</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Loading / Error States -->
+    <div id="loading-state" class="loading active" role="status" aria-live="polite">
+      <div class="spinner"></div>
+      <p>Loading AI adoption data…</p>
+    </div>
+    <div id="load-error" class="error hidden" role="alert">
+      <p>Data load failed. Verify assets/data/ai_dashboard_data.json and network.</p>
+    </div>
+
+    <!-- KPI STRIP -->
+    <section class="panel-row kpi-strip" aria-labelledby="kpi-overview-heading">
+      <h2 id="kpi-overview-heading" class="visually-hidden">Top Summary Indicators</h2>
+      <div class="kpi">
+        <span class="kpi-label">Active Projects</span>
+        <span class="kpi-value" id="kpi-active-projects">--</span>
+        <span class="kpi-sub" id="kpi-projects-complete-rate">Completion: --%</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-label">Faculty Adoption</span>
+        <span class="kpi-value" id="kpi-faculty-adoption">--%</span>
+        <span class="kpi-sub" id="kpi-faculty-active">Active Users: --</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-label">Student Engagement</span>
+        <span class="kpi-value" id="kpi-student-engagement">--%</span>
+        <span class="kpi-sub" id="kpi-student-abs">Participants: --</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-label">AI Courses</span>
+        <span class="kpi-value" id="kpi-ai-courses">--%</span>
+        <span class="kpi-sub" id="kpi-ai-course-count">Courses: --</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-label">Time Saved</span>
+        <span class="kpi-value" id="kpi-time-saved">-- hrs</span>
+        <span class="kpi-sub" id="kpi-cost-saved">$-- saved</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-label">Estimated ROI</span>
+        <span class="kpi-value" id="kpi-roi">--%</span>
+        <span class="kpi-sub" id="kpi-value-created">$-- value</span>
+      </div>
+    </section>
+
+    <!-- PANELS GRID -->
+    <div class="grid-layout" id="dashboard-panels" hidden>
+      <!-- 1. Adoption & Engagement -->
+      <section class="panel" aria-labelledby="adoption-heading">
+        <header class="panel-header">
+          <h3 id="adoption-heading">1. Adoption & Engagement</h3>
+          <span class="panel-sub">Utilization & training progress</span>
+        </header>
+          <div class="panel-body adoption-grid">
+            <div class="chart-block">
+              <h4 class="chart-title">Projects Initiated vs Completed <span id="proj-dept-label" class="mini-label">(All)</span></h4>
+              <canvas id="projectsBar" role="img" aria-label="Projects initiated versus completed by department"></canvas>
+              <div class="fallback-table">
+                <table>
+                  <thead><tr><th>Dept</th><th>Initiated</th><th>Completed</th></tr></thead>
+                  <tbody id="projects-fallback"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="chart-block">
+              <h4 class="chart-title">Faculty & Staff Adoption</h4>
+              <canvas id="facultyRadial" role="img" aria-label="Faculty adoption percentage radial gauge"></canvas>
+              <ul class="mini-metrics" id="faculty-breakdown"></ul>
+            </div>
+            <div class="chart-block">
+              <h4 class="chart-title">Student Engagement Trend</h4>
+              <canvas id="studentLine" role="img" aria-label="Student AI engagement trend"></canvas>
+            </div>
+            <div class="chart-block">
+              <h4 class="chart-title">Training Participation</h4>
+              <canvas id="trainingStacked" role="img" aria-label="Training participation by type"></canvas>
+            </div>
+          </div>
+      </section>
+
+      <!-- 2. Academic & Research Impact -->
+      <section class="panel" aria-labelledby="academic-heading">
+        <header class="panel-header">
+          <h3 id="academic-heading">2. Academic & Research Impact</h3>
+          <span class="panel-sub">Curriculum & scholarly output</span>
+        </header>
+        <div class="panel-body academic-grid">
+          <div class="chart-block">
+            <h4 class="chart-title">AI in Curriculum</h4>
+            <canvas id="coursesDoughnut" role="img" aria-label="Share of courses integrating AI"></canvas>
+            <p class="context" id="courses-context"></p>
+          </div>
+          <div class="chart-block">
+            <h4 class="chart-title">Research Grants (Amount & Count)</h4>
+            <canvas id="grantsCombo" role="img" aria-label="AI related grants funding and number of grants"></canvas>
+          </div>
+          <div class="chart-block">
+            <h4 class="chart-title">Publications & Citations</h4>
+            <canvas id="pubsLine" role="img" aria-label="AI publications and citations trend"></canvas>
+          </div>
+          <div class="chart-block">
+            <h4 class="chart-title">Interdisciplinary Collaborations Heatmap</h4>
+            <div id="collab-heatmap" class="heatmap" role="table" aria-label="Matrix of collaborations between departments"></div>
+            <div class="heatmap-legend"><span>Low</span><div class="gradient"></div><span>High</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Operational Efficiency -->
+      <section class="panel" aria-labelledby="operations-heading">
+        <header class="panel-header">
+          <h3 id="operations-heading">3. Operational Efficiency</h3>
+          <span class="panel-sub">Process automation & service enhancement</span>
+        </header>
+        <div class="panel-body ops-grid">
+          <div class="chart-block">
+            <h4 class="chart-title">Processes Enhanced</h4>
+            <ul class="process-list" id="process-list"></ul>
+          </div>
+          <div class="chart-block">
+            <h4 class="chart-title">Time & Cost Savings</h4>
+            <canvas id="savingsBar" role="img" aria-label="Estimated hours and cost savings by process group"></canvas>
+          </div>
+          <div class="chart-block">
+            <h4 class="chart-title">AI Service Improvements</h4>
+            <ul class="service-kpis" id="service-kpis"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Compliance & Risk -->
+      <section class="panel" aria-labelledby="compliance-heading">
+        <header class="panel-header">
+          <h3 id="compliance-heading">4. Compliance & Risk Management</h3>
+          <span class="panel-sub">Governance, ethics, security</span>
+        </header>
+        <div class="panel-body risk-grid">
+          <div class="chart-block">
+            <h4 class="chart-title">Data Governance Status</h4>
+            <div class="gauge-wrap">
+              <canvas id="governanceGauge" role="img" aria-label="Data governance progress indicator"></canvas>
+            </div>
+            <p id="governance-text" class="context"></p>
+          </div>
+          <div class="chart-block">
+            <h4 class="chart-title">Ethics Review Status</h4>
+            <canvas id="ethicsDonut" role="img" aria-label="Distribution of ethics review states"></canvas>
+            <ul class="mini-metrics" id="ethics-breakdown"></ul>
+          </div>
+          <div class="chart-block">
+            <h4 class="chart-title">Security Incidents Timeline</h4>
+            <canvas id="incidentsLine" role="img" aria-label="Security incidents by month"></canvas>
+            <p class="context small">Minor informational events excluded.</p>
+          </div>
+          <div class="chart-block">
+            <h4 class="chart-title">Risk Heat Indicators</h4>
+            <ul class="risk-indicators" id="risk-indicators" role="list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Strategic Outcomes -->
+      <section class="panel" aria-labelledby="strategic-heading">
+        <header class="panel-header">
+          <h3 id="strategic-heading">5. Strategic Outcomes</h3>
+          <span class="panel-sub">Alignment & comparative positioning</span>
+        </header>
+        <div class="panel-body strategic-grid">
+          <div class="chart-block">
+            <h4 class="chart-title">Strategic Alignment Scorecard</h4>
+            <table class="scorecard" aria-label="Alignment with strategic goals">
+              <thead><tr><th>Goal</th><th>Metric</th><th>Value</th><th>Trend</th></tr></thead>
+              <tbody id="alignment-table"></tbody>
+            </table>
+          </div>
+          <div class="chart-block">
+            <h4 class="chart-title">Benchmark vs Peer Institutions</h4>
+            <canvas id="benchmarkRadar" role="img" aria-label="Radar chart comparing Clemson with peers"></canvas>
+            <p class="context small">Peers (aggregate) shown as normalized baseline.</p>
+          </div>
+          <div class="chart-block">
+            <h4 class="chart-title">ROI & Value Creation</h4>
+            <canvas id="roiLine" role="img" aria-label="ROI growth trend"></canvas>
+            <p class="context" id="roi-context"></p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Notes & Assumptions -->
+    <section class="panel meta-section" aria-labelledby="notes-heading">
+      <h3 id="notes-heading">Data Notes & Assumptions</h3>
+      <ul class="notes">
+        <li>Values come from external JSON (assets/data/ai_dashboard_data.json) including datasetVersion.</li>
+        <li>Completion rate = Completed / Initiated (excludes archived or paused).</li>
+        <li>Adoption metrics use rolling 90‑day active definition.</li>
+        <li>ROI = (ValueGenerated - Cost) / Cost (adjust methodology as needed).</li>
+        <li>Risk thresholds: Green &lt; 40, Yellow 40–65, Red &gt; 65 (composite score).</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="app-footer" role="contentinfo">
+    <p class="small">
+      Clemson University – Executive AI Dashboard (Prototype) · Internal Use Only.
+      <span id="dataset-version-wrapper" style="display:block;margin-top:4px;">
+        Dataset Version: <strong id="dataset-version">--</strong>
+      </span>
+    </p>
+  </footer>
+
+  <!-- Main logic -->
+  <script src="assets/js/dashboard.js" defer></script>
+  <!-- Version injector (if not already handled in dashboard.js, this is a safety net) -->
+  <script>
+    // This inline helper will wait for global DATA (set in dashboard.js after fetch) and then inject version.
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'complete') {
+        const tryInject = () => {
+          if (window.DATA && window.DATA.datasetVersion) {
+            const el = document.getElementById('dataset-version');
+            if (el) el.textContent = window.DATA.datasetVersion;
+          } else {
+            // Retry briefly (fetch async)
+            setTimeout(tryInject, 150);
+          }
+        };
+        tryInject();
+      }
+    });
+  </script>
+</body>
+</html>

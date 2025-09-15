@@ -1,0 +1,111 @@
+{
+    "datasetVersion": "2025-Q1",
+  "departments": ["Engineering","Sciences","Business","Education","Humanities","Agriculture"],
+  "projectData": [
+    { "dept":"Engineering","initiated":15,"completed":9 },
+    { "dept":"Sciences","initiated":18,"completed":11 },
+    { "dept":"Business","initiated":14,"completed":8 },
+    { "dept":"Education","initiated":13,"completed":7 },
+    { "dept":"Humanities","initiated":10,"completed":5 },
+    { "dept":"Agriculture","initiated":12,"completed":6 }
+  ],
+  "facultyAdoption": {
+    "totalFaculty": 1800,
+    "activeFaculty": 1180,
+    "distribution": [
+      { "tool":"GenAI Writing","users":540 },
+      { "tool":"Analytics Platform","users":420 },
+      { "tool":"Image/Media AI","users":180 },
+      { "tool":"Adaptive LMS Tools","users":270 }
+    ]
+  },
+  "studentEngagement": {
+    "labelsQ": ["Q1","Q2","Q3","Q4"],
+    "valuesQ": [22,34,46,55],
+    "labelsM": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+    "valuesM": [12,14,18,22,25,30,33,38,42,48,52,55],
+    "totalStudents": 26000,
+    "engagedStudents": 14300
+  },
+  "trainingParticipation": {
+    "labels": ["Q1","Q2","Q3","Q4"],
+    "workshops": [120,180,240,260],
+    "certifications": [30,55,80,95],
+    "seminars": [90,110,150,170]
+  },
+  "curriculum": {
+    "totalCourses": 3200,
+    "aiCourses": 410,
+    "prevYear": 260
+  },
+  "research": {
+    "labels": ["2019","2020","2021","2022","2023","2024"],
+    "grantCounts": [6,9,11,15,19,24],
+    "grantAmounts": [0.9,1.4,2.1,3.0,4.2,5.6]
+  },
+  "publications": {
+    "labels": ["2019","2020","2021","2022","2023","2024"],
+    "pubs": [25,40,52,70,88,110],
+    "citations": [120,260,430,680,990,1320]
+  },
+  "collabMatrix": [
+    [0,3,4,2,1,2],
+    [3,0,5,3,2,4],
+    [4,5,0,4,3,3],
+    [2,3,4,0,2,3],
+    [1,2,3,2,0,2],
+    [2,4,3,3,2,0]
+  ],
+  "processes": [
+    { "name":"Admissions Screening","status":"Automated","hoursSaved":480,"costSaved":24000 },
+    { "name":"Academic Advising Triage","status":"Pilot","hoursSaved":140,"costSaved":6200 },
+    { "name":"Facilities Work Orders","status":"Automated","hoursSaved":360,"costSaved":15000 },
+    { "name":"HR Onboarding Docs","status":"In Planning","hoursSaved":0,"costSaved":0 },
+    { "name":"Library Reference Chat","status":"Automated","hoursSaved":220,"costSaved":8400 },
+    { "name":"Financial Aid Q&A","status":"Pilot","hoursSaved":95,"costSaved":4300 }
+  ],
+  "serviceImprovements": [
+    { "metric":"Chatbot Avg Response","value":"1.8s","baseline":"3.6s","direction":"improved" },
+    { "metric":"Student Satisfaction (AI Helpdesk)","value":"89%","baseline":"78%","direction":"improved" },
+    { "metric":"Ticket Deflection","value":"32%","baseline":"0%","direction":"improved" }
+  ],
+  "governance": {
+    "policies": 14,
+    "policiesTarget": 16,
+    "auditsCompleted": 5,
+    "auditsPlanned": 6
+  },
+  "ethicsReviews": {
+    "approved": 42,
+    "pending": 9,
+    "revisions": 4
+  },
+  "securityIncidents": {
+    "labels": ["Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar"],
+    "incidents": [1,0,2,1,1,0,0,2,1,0,1,0]
+  },
+  "riskIndicators": [
+    { "area":"Data Quality","score":32 },
+    { "area":"Model Bias","score":48 },
+    { "area":"Shadow AI Use","score":67 },
+    { "area":"IP / Licensing","score":41 },
+    { "area":"Security Controls","score":28 }
+  ],
+  "strategicAlignment": [
+    { "goal":"Research Excellence","metric":"AI Grants Growth YoY","value":"+33%","status":"green","trend":[9,11,15,19,24] },
+    { "goal":"Student Success","metric":"AI Course Exposure","value":"13%","status":"yellow","trend":[5,7,9,11,13] },
+    { "goal":"Operational Efficiency","metric":"Hours Saved (Annualized)","value":"1295","status":"green","trend":[120,220,400,640,900] },
+    { "goal":"Responsible Adoption","metric":"Ethics Review Completion","value":"76%","status":"green","trend":[60,64,68,71,76] },
+    { "goal":"Risk Reduction","metric":"Avg Risk Score","value":"49","status":"yellow","trend":[58,55,53,50,49] }
+  ],
+  "benchmark": {
+    "axes": ["Adoption","Research Output","Curriculum Integration","Efficiency","Governance"],
+    "clemson": [78,72,56,69,63],
+    "peers": [65,68,49,55,58]
+  },
+  "roiTrend": {
+    "labels": ["Q1","Q2","Q3","Q4"],
+    "roiPct": [12,18,25,33],
+    "valueCreated": [1.1,1.9,3.2,4.8]
+  }
+}
